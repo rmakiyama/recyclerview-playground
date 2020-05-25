@@ -9,9 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.rmakiyama.recyclerviewplayground.R
 import com.rmakiyama.recyclerviewplayground.databinding.ActivityMainBinding
-import com.rmakiyama.recyclerviewplayground.ui.home.HomeFragmentDirections
 import dagger.android.support.DaggerAppCompatActivity
-import java.util.*
 
 class MainActivity : DaggerAppCompatActivity() {
 
@@ -29,14 +27,6 @@ class MainActivity : DaggerAppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             onDestinationChange(destination)
-        }
-
-        binding.fab.setOnClickListener {
-            navController.navigate(
-                HomeFragmentDirections.actionHomeToDetail(
-                    UUID.randomUUID().toString()
-                )
-            )
         }
     }
 
