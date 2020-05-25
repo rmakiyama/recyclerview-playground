@@ -1,23 +1,38 @@
 package com.rmakiyama.recyclerviewplayground.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.rmakiyama.recyclerviewplayground.model.Dummy
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AppDummyRepository @Inject constructor() : DummyRepository {
 
-    override fun dummies(): Flow<List<Dummy>> {
-        return flow {
-            emit(
-                listOf(
-                    Dummy(), Dummy(), Dummy(), Dummy(), Dummy(), Dummy(), Dummy()
-                )
-            )
-        }
+    // ローカルDBの代替
+    private var data = listOf(
+        Dummy(), Dummy(), Dummy(), Dummy(), Dummy(), Dummy(), Dummy(),
+        Dummy(), Dummy(), Dummy(), Dummy(), Dummy(), Dummy(), Dummy()
+    )
+
+    private val _dummies = MutableLiveData<List<Dummy>>(listOf())
+    override val dummies: LiveData<List<Dummy>> get() = _dummies
+
+    init {
+        loadData()
     }
 
-    override suspend fun save(dummy: Dummy) {
-        TODO("Not yet implemented")
+    override suspend fun toggleFavorite(dummy: Dummy) {
+        updateLocalFavorite(dummy.id)
+    }
+
+    // ローカルDBを更新
+    private fun updateLocalFavorite(id: String) {
+        data = data.map { dummy ->
+            if (dummy.id == id) dummy.copy(isFavorite = !dummy.isFavorite) else dummy
+        }
+        loadData()
+    }
+
+    private fun loadData() {
+        _dummies.value = data
     }
 }

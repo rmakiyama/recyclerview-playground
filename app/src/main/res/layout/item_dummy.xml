@@ -32,7 +32,7 @@
         android:id="@+id/favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="16dp"
         android:src="@drawable/ic_favorite_border"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -6,6 +6,7 @@ import androidx.lifecycle.observe
 import com.rmakiyama.recyclerviewplayground.R
 import com.rmakiyama.recyclerviewplayground.core.ext.assistedViewModels
 import com.rmakiyama.recyclerviewplayground.databinding.FragmentHomeBinding
+import com.rmakiyama.recyclerviewplayground.model.Dummy
 import com.rmakiyama.recyclerviewplayground.ui.home.item.DummyItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -25,9 +26,14 @@ class HomeFragment : DaggerFragment(R.layout.fragment_home) {
         binding.dummies.adapter = adapter
 
         with(viewModel) {
-            dummies.observe(viewLifecycleOwner) { dummies ->
-                adapter.update(dummies.map(::DummyItem))
-            }
+            dummies.observe(viewLifecycleOwner, ::updateDummies)
         }
+    }
+
+    private fun updateDummies(dummies: List<Dummy>) {
+        val items = dummies.map { dummy ->
+            DummyItem(dummy, viewModel::toggleFavorite)
+        }
+        adapter.update(items)
     }
 }

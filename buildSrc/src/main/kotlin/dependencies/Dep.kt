@@ -3,8 +3,8 @@ package dependencies
 object Dep {
 
     object Kotlin {
-        val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
-        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+        val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
+        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6"
         val androidCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
     }
 

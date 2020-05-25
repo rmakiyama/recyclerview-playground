@@ -1,11 +1,13 @@
 package com.rmakiyama.recyclerviewplayground.data
 
+import androidx.lifecycle.LiveData
 import com.rmakiyama.recyclerviewplayground.model.Dummy
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface DummyRepository {
 
-    fun dummies(): Flow<List<Dummy>>
+    val dummies: LiveData<List<Dummy>>
 
-    suspend fun save(dummy: Dummy)
+    suspend fun toggleFavorite(dummy: Dummy)
 }

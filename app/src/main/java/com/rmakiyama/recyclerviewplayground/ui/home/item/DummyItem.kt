@@ -10,8 +10,9 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 
 data class DummyItem(
-    val dummy: Dummy
-) : Item<GroupieViewHolder>() {
+    val dummy: Dummy,
+    val onClickFavoriteListener: (dummy: Dummy) -> Unit
+) : Item<GroupieViewHolder>(dummy.id.hashCode().toLong()) {
 
     override fun getLayout() = R.layout.item_dummy
 
@@ -27,6 +28,7 @@ data class DummyItem(
         }
         binding.uuid.text = dummy.id
         setImageRes(binding.favorite, dummy.isFavorite)
+        binding.favorite.setOnClickListener { onClickFavoriteListener(dummy) }
     }
 
     private fun setImageRes(
