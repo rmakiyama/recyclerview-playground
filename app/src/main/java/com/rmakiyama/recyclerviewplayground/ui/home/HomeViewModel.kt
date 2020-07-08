@@ -1,10 +1,9 @@
 package com.rmakiyama.recyclerviewplayground.ui.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.rmakiyama.recyclerviewplayground.data.DummyRepository
-import com.rmakiyama.recyclerviewplayground.model.Dummy
+import com.rmakiyama.recyclerviewplayground.model.User
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,10 +14,10 @@ class HomeViewModel @Inject constructor(
 
     val dummies = repository.dummies
 
-    fun toggleFavorite(dummy: Dummy) {
+    fun toggleFavorite(user: User) {
         viewModelScope.launch {
             runCatching {
-                repository.toggleFavorite(dummy)
+                repository.toggleFavorite(user)
             }.onFailure(Timber::e)
         }
     }

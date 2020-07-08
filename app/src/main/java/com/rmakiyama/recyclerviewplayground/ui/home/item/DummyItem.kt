@@ -5,14 +5,14 @@ import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.rmakiyama.recyclerviewplayground.R
 import com.rmakiyama.recyclerviewplayground.databinding.ItemDummyBinding
-import com.rmakiyama.recyclerviewplayground.model.Dummy
+import com.rmakiyama.recyclerviewplayground.model.User
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 
 data class DummyItem(
-    val dummy: Dummy,
-    val onClickFavoriteListener: (dummy: Dummy) -> Unit
-) : Item<GroupieViewHolder>(dummy.id.hashCode().toLong()) {
+    val user: User,
+    val onClickFavoriteListener: (user: User) -> Unit
+) : Item<GroupieViewHolder>(user.id.hashCode().toLong()) {
 
     override fun getLayout() = R.layout.item_dummy
 
@@ -22,13 +22,13 @@ data class DummyItem(
     ) {
         val binding = ItemDummyBinding.bind(viewHolder.itemView)
 
-        binding.image.load(dummy.imageUrl) {
+        binding.image.load(user.imageUrl) {
             crossfade(true)
             transformations(CircleCropTransformation())
         }
-        binding.uuid.text = dummy.id
-        setImageRes(binding.favorite, dummy.isFavorite)
-        binding.favorite.setOnClickListener { onClickFavoriteListener(dummy) }
+        binding.uuid.text = user.id
+        setImageRes(binding.favorite, user.isFavorite)
+        binding.favorite.setOnClickListener { onClickFavoriteListener(user) }
     }
 
     private fun setImageRes(

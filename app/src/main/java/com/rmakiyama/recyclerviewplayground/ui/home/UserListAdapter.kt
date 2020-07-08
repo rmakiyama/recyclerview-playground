@@ -9,12 +9,12 @@ import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.rmakiyama.recyclerviewplayground.R
 import com.rmakiyama.recyclerviewplayground.databinding.ItemDummyBinding
-import com.rmakiyama.recyclerviewplayground.model.Dummy
+import com.rmakiyama.recyclerviewplayground.model.User
 import com.rmakiyama.recyclerviewplayground.model.DummyDiff
 
 class UserListAdapter(
-    private val onClickFavoriteListener: (dummy: Dummy) -> Unit
-) : ListAdapter<Dummy, UserViewHolder>(DummyDiff) {
+    private val onClickFavoriteListener: (user: User) -> Unit
+) : ListAdapter<User, UserViewHolder>(DummyDiff) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,18 +38,18 @@ class UserListAdapter(
 
 class UserViewHolder(
     binding: ItemDummyBinding,
-    private val onClickFavoriteListener: (dummy: Dummy) -> Unit
+    private val onClickFavoriteListener: (user: User) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(dummy: Dummy) {
+    fun bind(user: User) {
         val binding = ItemDummyBinding.bind(itemView)
-        binding.image.load(dummy.imageUrl) {
+        binding.image.load(user.imageUrl) {
             crossfade(true)
             transformations(CircleCropTransformation())
         }
-        binding.uuid.text = dummy.id
-        setImageRes(binding.favorite, dummy.isFavorite)
-        binding.favorite.setOnClickListener { onClickFavoriteListener(dummy) }
+        binding.uuid.text = user.id
+        setImageRes(binding.favorite, user.isFavorite)
+        binding.favorite.setOnClickListener { onClickFavoriteListener(user) }
     }
 
     private fun setImageRes(
