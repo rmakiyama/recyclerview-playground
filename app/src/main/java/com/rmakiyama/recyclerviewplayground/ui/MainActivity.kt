@@ -24,10 +24,6 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            onDestinationChange(destination)
-        }
     }
 
     override fun onSupportNavigateUp() = navController.navigateUp()
@@ -41,13 +37,6 @@ class MainActivity : DaggerAppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun onDestinationChange(destination: NavDestination) {
-        when (destination.id) {
-            R.id.home -> binding.fab.show()
-            else -> binding.fab.hide()
         }
     }
 }

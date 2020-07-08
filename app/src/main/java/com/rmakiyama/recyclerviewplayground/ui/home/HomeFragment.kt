@@ -6,10 +6,6 @@ import androidx.lifecycle.observe
 import com.rmakiyama.recyclerviewplayground.R
 import com.rmakiyama.recyclerviewplayground.core.ext.assistedViewModels
 import com.rmakiyama.recyclerviewplayground.databinding.FragmentHomeBinding
-import com.rmakiyama.recyclerviewplayground.model.Dummy
-import com.rmakiyama.recyclerviewplayground.ui.home.item.DummyItem
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 import javax.inject.Provider
@@ -18,7 +14,7 @@ class HomeFragment : DaggerFragment(R.layout.fragment_home) {
 
     @Inject lateinit var factory: Provider<HomeViewModel>
     private val viewModel by assistedViewModels { factory.get() }
-    private val adapter = GroupAdapter<GroupieViewHolder>()
+    private val adapter by lazy { UserListAdapter(viewModel::toggleFavorite) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,14 +22,7 @@ class HomeFragment : DaggerFragment(R.layout.fragment_home) {
         binding.dummies.adapter = adapter
 
         with(viewModel) {
-            dummies.observe(viewLifecycleOwner, ::updateDummies)
+            dummies.observe(viewLifecycleOwner, adapter::submitList)
         }
-    }
-
-    private fun updateDummies(dummies: List<Dummy>) {
-        val items = dummies.map { dummy ->
-            DummyItem(dummy, viewModel::toggleFavorite)
-        }
-        adapter.update(items)
     }
 }
