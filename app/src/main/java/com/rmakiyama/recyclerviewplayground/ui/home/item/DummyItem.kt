@@ -31,6 +31,36 @@ data class DummyItem(
         binding.favorite.setOnClickListener { onClickFavoriteListener(dummy) }
     }
 
+    override fun bind(
+        viewHolder: GroupieViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            bind(viewHolder, position)
+        } else {
+            payloads.distinct().forEach { payload ->
+                val itemPayload = payload as? ItemPayload ?: return
+                val binding = ItemDummyBinding.bind(viewHolder.itemView)
+                when (itemPayload) {
+                    is ItemPayload.Favorite -> {
+                        setImageRes(binding.favorite, itemPayload.isFavorite)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getChangePayload(newItem: Item<*>): Any? {
+        return when {
+            newItem !is DummyItem -> null
+            dummy.isFavorite != newItem.dummy.isFavorite -> {
+                ItemPayload.Favorite(newItem.dummy.isFavorite)
+            }
+            else -> null
+        }
+    }
+
     private fun setImageRes(
         imageButton: ImageButton,
         isFavorite: Boolean
@@ -41,5 +71,9 @@ data class DummyItem(
             R.drawable.ic_favorite_border
         }
         imageButton.setImageResource(imageRes)
+    }
+
+    private sealed class ItemPayload {
+        data class Favorite(val isFavorite: Boolean) : ItemPayload()
     }
 }
