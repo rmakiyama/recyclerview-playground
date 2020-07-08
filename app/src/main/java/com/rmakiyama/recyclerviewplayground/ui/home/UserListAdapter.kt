@@ -20,12 +20,12 @@ class UserListAdapter(
         parent: ViewGroup,
         viewType: Int
     ): UserViewHolder {
-        return UserViewHolder(
-            ItemDummyBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            ),
-            onClickFavoriteListener
+        val binding = ItemDummyBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+        return UserViewHolder(binding, onClickFavoriteListener)
     }
 
     override fun onBindViewHolder(
