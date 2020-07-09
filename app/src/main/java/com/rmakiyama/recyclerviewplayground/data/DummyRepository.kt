@@ -8,4 +8,6 @@ interface DummyRepository {
     val dummies: LiveData<List<User>>
 
     suspend fun toggleFavorite(user: User)
+    suspend fun changeUser(user: User)
+    suspend fun changePhoto(user: User)
 }

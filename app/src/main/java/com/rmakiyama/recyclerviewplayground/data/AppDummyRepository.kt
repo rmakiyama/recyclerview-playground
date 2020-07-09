@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rmakiyama.recyclerviewplayground.model.User
 import javax.inject.Inject
+import kotlin.random.Random
 
 class AppDummyRepository @Inject constructor() : DummyRepository {
 
@@ -22,6 +23,21 @@ class AppDummyRepository @Inject constructor() : DummyRepository {
 
     override suspend fun toggleFavorite(user: User) {
         updateLocalFavorite(user.id)
+    }
+
+    override suspend fun changeUser(user: User) {
+        data = data.map { data ->
+            if (data.id == user.id) User() else data
+        }
+        loadData()
+    }
+
+    override suspend fun changePhoto(user: User) {
+        val newImageUrl = "https://randomuser.me/api/portraits/men/${Random.nextInt(0, 50)}.jpg"
+        data = data.map { data ->
+            if (data.id == user.id) data.copy(imageUrl = newImageUrl) else data
+        }
+        loadData()
     }
 
     // ローカルDBを更新

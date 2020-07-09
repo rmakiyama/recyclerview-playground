@@ -11,7 +11,7 @@ data class User(
     val isFavorite: Boolean = false
 )
 
-object DummyDiff : DiffUtil.ItemCallback<User>() {
+object UserDiff : DiffUtil.ItemCallback<User>() {
 
     override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
         return oldItem.id == newItem.id
@@ -19,5 +19,22 @@ object DummyDiff : DiffUtil.ItemCallback<User>() {
 
     override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
         return oldItem == newItem
+    }
+
+    override fun getChangePayload(oldItem: User, newItem: User): Any? {
+        return when {
+            oldItem.imageUrl != newItem.imageUrl -> {
+                Payload.ImageUrl(newItem.imageUrl)
+            }
+            oldItem.isFavorite != newItem.isFavorite -> {
+                Payload.IsFavorite(newItem.isFavorite)
+            }
+            else -> null
+        }
+    }
+
+    sealed class Payload {
+        data class ImageUrl(val value: String) : Payload()
+        data class IsFavorite(val value: Boolean) : Payload()
     }
 }

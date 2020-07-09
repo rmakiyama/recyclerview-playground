@@ -21,4 +21,20 @@ class HomeViewModel @Inject constructor(
             }.onFailure(Timber::e)
         }
     }
+
+    fun changeUser(user: User) {
+        viewModelScope.launch {
+            runCatching {
+                repository.changeUser(user)
+            }.onFailure(Timber::e)
+        }
+    }
+
+    fun changePhoto(user: User) {
+        viewModelScope.launch {
+            runCatching {
+                repository.changePhoto(user)
+            }.onFailure(Timber::e)
+        }
+    }
 }
